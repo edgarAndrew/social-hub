@@ -5,5 +5,8 @@
 
 # production
 /client/build
-/test
+/api
+
+#misc
+/notes.txt
 
