@@ -1,9 +1,9 @@
 # dependencies
 /api/node_modules
 /api/.env
-/api/.git
 /client/node_modules
 
 # production
 /client/build
+/test
 
