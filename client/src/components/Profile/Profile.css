@@ -1,0 +1,104 @@
+.profile{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.profileBottom{
+    display: flex;
+    box-sizing: border-box;
+    width: 80%;
+    align-self: center;
+    background-image: linear-gradient(to right,#d3ccfc,#fc90e7);
+}
+.profileleft{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: baseline;
+    padding: 2vmax 0.5vmax;
+    column-gap: 5px;
+    box-sizing: border-box;
+}
+.profiletop{
+    padding: 2vmax;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.bio{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+.settings{
+    display: flex;
+    flex-direction: column;
+}
+.profiletop >img:hover{
+    transform: scale(1.1);
+}
+.profiletop >img{
+    transition: all 0.5s;
+}
+.bio > h5{
+    margin: 2vmax;
+    align-self: flex-start;
+}
+.bio > div > div > svg{
+    font-size: 25px;
+    margin-left: 1vmax;
+    transition: all 0.5s;
+    color: rgba(0, 0, 0, 0.445);
+}
+.bio > div > div > svg:hover{
+    color: black;
+    transform: scale(1.2);
+}
+.settings > a{
+    color: rgb(73,73,73);
+    text-decoration: none;
+    font:100 1.2rem "Roboto";
+    text-align: center;
+    margin-top: 2vmax;
+    padding: 0.5vmax 1vmax;
+    transition: all 0.5s;
+}
+.settings > a:hover{
+    box-shadow: 0 0 10px rgba(0,0,0,0.253);
+}
+.bio > div{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 1vmax;
+}
+.bio > div > button{
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.5s;
+    padding: 0.5vmax 1vmax;
+}
+.bio > div > button:hover{
+    box-shadow: 0 0 10px rgba(0,0,0,0.253);
+}
+.DialogBox{
+    min-width: 400px;
+    height: 100vh;
+    padding: 2vmax;
+}
+@media screen and (max-width:600px){
+    .profileBottom{
+        padding: 0;
+        width: 100%;
+    }
+    .profiletop > a{
+        font: 100 1rem "Roboto";
+        margin-top: 6vw;
+    }
+}

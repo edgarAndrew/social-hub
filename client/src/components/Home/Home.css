@@ -1,0 +1,26 @@
+.home{
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 30%;
+    height: 100vh;
+}
+.homeleft{
+    background-image: linear-gradient(to right,#d3ccfc,#fc90e7);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2vmax;
+    box-sizing: border-box;
+}
+.homeright{
+    padding: 2vmax;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+@media screen and (max-width: 600px) {
+    .home{
+        grid-template-columns: 1fr 2%;
+        overflow-y: auto;
+    }
+}

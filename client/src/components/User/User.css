@@ -1,0 +1,26 @@
+.homeUser{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: rgba(0,0,0, 0.507);
+    transition: all 0.5s;
+}
+.homeUser > img{
+    height: 3vmax;
+    width: 3vmax;
+    margin: 1vmax;
+    border-radius: 100%;
+    border: 3px solid rgb(255,201,201);
+}
+.homeUser:hover{
+    transform: translateY(-10px);
+}
+@media screen and (max-width:960px){
+    .homeUser > img{
+        height: 6vmax;
+        width: 6vmax;
+        margin: 1vmax;
+        border-radius: 100%;
+        border: 3px solid rgb(255,201,201);
+    }
+}
