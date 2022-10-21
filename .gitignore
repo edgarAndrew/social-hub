@@ -1,6 +1,6 @@
 # dependencies
-/api/node_modules
-/api/.env
+/server/node_modules
+/server/.env
 /client/node_modules
 
 # production
