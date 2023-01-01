@@ -84,13 +84,8 @@ const Post = ({
                 style={{alignSelf:"center"}}
             >{caption}</Typography>
         </div>
-        <button
-            onClick={()=>setLikeBox(!likeBox)}
-            style={{backgroundColor:"transparent",
-                    border:"none",
-                    cursor:"pointer",
-                    margin:"1vmax 2vmax"
-                }}>
+        <button id='likes-btn'
+            onClick={()=>setLikeBox(!likeBox)}>
             <Typography>{likeCount} Likes</Typography>
         </button>
         <div className='postFooter'>

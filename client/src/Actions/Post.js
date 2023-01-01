@@ -1,20 +1,33 @@
-import axios from 'axios'
-import '../axios'
+const productionUrl = "https://social-hub-test.vercel.app"
+const developmentUrl = 'http://localhost:5000'
+const URL = productionUrl
+
 export const likePost = (postId)=>async(dispatch)=>{
     try {
         dispatch({
             type:"likeRequest"
         })
-        const {data} = await axios.patch(`/api/v1/posts/${postId}/like`)
+        const response = await fetch(`${URL}/api/v1/posts/${postId}/like`, {
+            method: 'PATCH',
+            mode: 'cors',
+            credentials: 'include',
+          });
+
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
         dispatch({
             type:"likeSuccess",
             payload:data
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"likeFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -23,16 +36,28 @@ export const unlikePost = (postId)=>async(dispatch)=>{
         dispatch({
             type:"unlikeRequest"
         })
-        const {data} = await axios.patch(`/api/v1/posts/${postId}/unlike`)
+        const response = await fetch(`${URL}/api/v1/posts/${postId}/unlike`, {
+            method: 'PATCH',
+            mode: 'cors',
+            credentials: 'include',
+          });
+
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
+
         dispatch({
             type:"unlikeSuccess",
             payload:data
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"unlikeFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -41,20 +66,33 @@ export const commentPost = (postId,comment)=>async(dispatch)=>{
         dispatch({
             type:"commentRequest"
         })
-        const {data} = await axios.post(`/api/v1/posts/${postId}/comment`,{comment},{
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
+        const response = await fetch(`${URL}/api/v1/posts/${postId}/comment`, {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "comment":comment
+            })
+          });
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
+
         dispatch({
             type:"commentSuccess",
             payload:data
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"commentFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -63,20 +101,33 @@ export const uncommentPost = (postId,comment)=>async(dispatch)=>{
         dispatch({
             type:"uncommentRequest"
         })
-        const {data} = await axios.delete(`/api/v1/posts/${postId}/comment`,{data:{comment:comment}},{
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
+        const response = await fetch(`${URL}/api/v1/posts/${postId}/comment`, {
+            method: 'DELETE',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                comment:comment
+            })
+          });
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
+
         dispatch({
             type:"uncommentSuccess",
             payload:data
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"uncommentFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -85,22 +136,33 @@ export const uploadPost = (caption,image)=>async(dispatch)=>{
         dispatch({
             type:"uploadPostRequest"
         })
-        const {data} = await axios.post(`/api/v1/posts/`,
-        {desc:caption,img:image},
-        {
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
+        const response = await fetch(`${URL}/api/v1/posts/`, {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                desc:caption,img:image
+            })
+          });
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
+
         dispatch({
             type:"uploadPostSuccess",
             payload:data
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"uploadPostFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -109,20 +171,34 @@ export const updatePost = (caption,postId)=>async(dispatch)=>{
         dispatch({
             type:"updateRequest"
         })
-        const {data} = await axios.patch(`/api/v1/posts/${postId}`,{desc:caption},{
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
+        const response = await fetch(`${URL}/api/v1/posts/${postId}`, {
+            method: 'PATCH',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                desc:caption
+            })
+          });
+
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
+
         dispatch({
             type:"updateSuccess",
             payload:data
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"updateFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -131,16 +207,27 @@ export const deletePost = (postId)=>async(dispatch)=>{
         dispatch({
             type:"deleteRequest"
         })
-        const {data} = await axios.delete(`/api/v1/posts/${postId}`)
+        const response = await fetch(`${URL}/api/v1/posts/${postId}`, {
+            method: 'DELETE',
+            mode: 'cors',
+            credentials: 'include',
+          });
+
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
         dispatch({
             type:"deleteSuccess",
             payload:data
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"deleteFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }

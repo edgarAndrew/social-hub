@@ -1,5 +1,6 @@
-import axios from "axios"
-import '../axios'
+const productionUrl = "https://social-hub-test.vercel.app"
+const developmentUrl = 'http://localhost:5000'
+const URL = productionUrl
 
 // We use double arrow functions
 export const loginUser = (email,password)=>async(dispatch)=>{
@@ -7,20 +8,34 @@ export const loginUser = (email,password)=>async(dispatch)=>{
         dispatch({
             type:"LoginRequest"
         })
-        const {data} = await axios.post("/api/v1/auth/login",{email,password},{
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
+        const response = await fetch(`${URL}/api/v1/auth/login`, {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "email":email,
+                "password":password
+            })
+          });
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
+
         dispatch({
             type:"LoginSuccess",
             payload:data.user
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"LoginFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -29,20 +44,35 @@ export const registerUser = (username,email,password,image)=>async(dispatch)=>{
         dispatch({
             type:"RegisterRequest"
         })
-        const {data} = await axios.post("/api/v1/auth/register",{username,email,password,profilePicture:image},{
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
+        const response = await fetch(`${URL}/api/v1/auth/register`, {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username":username,
+                "email":email,
+                "password":password,
+                "profilePicture":image
+            })
+          });
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
         dispatch({
             type:"RegisterSuccess",
             payload:data.user
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"RegisterFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -51,16 +81,27 @@ export const logoutUser = ()=>async(dispatch)=>{
         dispatch({
             type:"LogoutUserRequest"
         })
-        const {data} = await axios.get("/api/v1/auth/logout")
+        const response = await fetch(`${URL}/api/v1/auth/logout`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+          });
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
+
         dispatch({
             type:"LogoutUserSuccess",
             payload:data
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"LogoutUserFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -70,16 +111,27 @@ export const deleteUser = (userId)=>async(dispatch)=>{
         dispatch({
             type:"DeleteUserRequest"
         })
-        const {data} = await axios.delete(`/api/v1/users/${userId}`)
+        const response = await fetch(`${URL}/api/v1/users/${userId}`, {
+            method: 'DELETE',
+            mode: 'cors',
+            credentials: 'include',
+          });
+        const data = await response.json()
+        
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
         dispatch({
             type:"DeleteUserSuccess",
             payload:data
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"DeleteUserFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -89,46 +141,73 @@ export const updateUser = (userId,username,email,image)=>async(dispatch)=>{
         dispatch({
             type:"UpdateUserRequest"
         })
-        const {data} = await axios.patch(`/api/v1/users/${userId}`,
-        {username:username,email:email,img:image},{
-            headers:{
-                "Content-Type":"application/json"
-            }
+        const response = await fetch(`${URL}/api/v1/users/${userId}`, {
+            method: 'PATCH',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "username":username,
+                "email":email,
+                "img":image,
+            })
+          });
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
         }
-        )
+
         dispatch({
             type:"UpdateUserSuccess",
             payload:data
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"UpdateUserFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
+
+// Not properly implemented on backend
 export const updateUserPass = (userId,oldPass,newPass)=>async(dispatch)=>{
     try {
         dispatch({
-            type:"likeRequest"
+            type:"UpdateUserRequest"
         })
-        const {data} = await axios.patch(`/api/v1/users/${userId}`,
-        {oldPassword:oldPass,newPassword:newPass},{
-            headers:{
-                "Content-Type":"application/json"
-            }
+        const response = await fetch(`${URL}/api/v1/users/${userId}`, {
+            method: 'PATCH',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "oldPassword":oldPass,
+                "newPassword":newPass,
+            })
+          });
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
         }
-        )
+
         dispatch({
-            type:"likeSuccess",
+            type:"UpdateUserSuccess",
             payload:"Password Updated"
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
-            type:"likeFailure",
-            payload:error.response.data
+            type:"UpdateUserFailure",
+            payload:error.message
         })
     }    
 }
@@ -137,16 +216,28 @@ export const loadUser = ()=>async(dispatch)=>{
         dispatch({
             type:"LoadUserRequest"
         })
-        const {data} = await axios.get("/api/v1/users/profile")
+        const response = await fetch(`${URL}/api/v1/users/profile`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+          });
+
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
+        
         dispatch({
             type:"LoadUserSuccess",
             payload:data
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"LoadUserFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -155,18 +246,40 @@ export const getSingleUser = (id) =>async(dispatch)=>{
         dispatch({
             type:"selectUserRequest"
         })
-        const {data:data1} = await axios.get(`/api/v1/users/${id}`)
-        const {data:data2} = await axios.get(`/api/v1/posts/${id}/all`)
+        const response1 = await fetch(`${URL}/api/v1/users/${id}`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+          });
+        const data1 = await response1.json()
+        if(response1.status >= 400){
+            const obj = new Error(data1.msg)
+            obj.statusCode = response1.status
+            throw obj
+        }
+
+        const response2 = await fetch(`${URL}/api/v1/posts/${id}/all`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+          });
+        const data2 = await response2.json()
+        if(response2.status >= 400){
+            const obj = new Error(data2.msg)
+            obj.statusCode = response2.status
+            throw obj
+        }
+
         data1.posts = data2
         dispatch({
             type:"selectUserSuccess",
             payload:data1
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"selectUserFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -175,16 +288,26 @@ export const getFollowingPosts = ()=>async(dispatch) =>{
         dispatch({
             type:"followingPostsRequest"
         })
-        const {data} = await axios.get("/api/v1/posts/following")
+        const response = await fetch(`${URL}/api/v1/posts/following`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+          });
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
         dispatch({
             type:"followingPostsSuccess",
             payload:data
         })
     }catch(error){
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"followingPostsFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }
 }
@@ -193,16 +316,26 @@ export const getUserPosts = ()=>async(dispatch) =>{
         dispatch({
             type:"userPostsRequest"
         })
-        const {data} = await axios.get("/api/v1/posts/user")
+        const response = await fetch(`${URL}/api/v1/posts/user`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+          });
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
         dispatch({
             type:"userPostsSuccess",
             payload:data
         })
     }catch(error){
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"userPostsFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }
 }
@@ -211,16 +344,27 @@ export const getAllUsers = ()=>async(dispatch) =>{
         dispatch({
             type:"allUsersRequest"
         })
-        const {data} = await axios.get("/api/v1/users/all")
+        const response = await fetch(`${URL}/api/v1/users/all`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+          });
+
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
         dispatch({
             type:"allUsersSuccess",
             payload:data
         })
     }catch(error){
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"allUsersFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }
 }
@@ -229,16 +373,27 @@ export const searchUser = (username)=>async(dispatch) =>{
         dispatch({
             type:"getUsersRequest"
         })
-        const {data} = await axios.get(`/api/v1/users/search/${username}`);
+        const response = await fetch(`${URL}/api/v1/users/search/${username}`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+          });
+
+        const data = await response.json()
+        if(response.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response.status
+            throw obj
+        }
         dispatch({
             type:"getUsersSuccess",
             payload:data
         })
     }catch(error){
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"getUsersFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }
 }
@@ -247,8 +402,30 @@ export const followUser = (id) =>async(dispatch)=>{
         dispatch({
             type:"selectUserRequest"
         })
-        const {data} = await axios.patch(`/api/v1/users/${id}/follow`)
-        const {data:data2} = await axios.get(`/api/v1/posts/${id}/all`)
+        const response1 = await fetch(`${URL}/api/v1/users/${id}/follow`, {
+            method: 'PATCH',
+            mode: 'cors',
+            credentials: 'include',
+          });
+        const data = await response1.json()
+        if(response1.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response1.status
+            throw obj
+        }
+
+        const response2 = await fetch(`${URL}/api/v1/posts/${id}/all`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+          });
+        const data2 = await response2.json()
+        if(response2.status >= 400){
+            const obj = new Error(data2.msg)
+            obj.statusCode = response2.status
+            throw obj
+        }
+        
         data.user.posts = data2
         data.user.status = data.status
         dispatch({
@@ -256,10 +433,10 @@ export const followUser = (id) =>async(dispatch)=>{
             payload:data.user
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"selectUserFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }
@@ -268,8 +445,30 @@ export const unfollowUser = (id) =>async(dispatch)=>{
         dispatch({
             type:"selectUserRequest"
         })
-        const {data} = await axios.patch(`/api/v1/users/${id}/unfollow`)
-        const {data:data2} = await axios.get(`/api/v1/posts/${id}/all`)
+        const response1 = await fetch(`${URL}/api/v1/users/${id}/unfollow`, {
+            method: 'PATCH',
+            mode: 'cors',
+            credentials: 'include',
+          });
+        const data = await response1.json()
+        if(response1.status >= 400){
+            const obj = new Error(data.msg)
+            obj.statusCode = response1.status
+            throw obj
+        }
+
+        const response2 = await fetch(`${URL}/api/v1/posts/${id}/all`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+          });
+        const data2 = await response2.json()
+        if(response2.status >= 400){
+            const obj = new Error(data2.msg)
+            obj.statusCode = response2.status
+            throw obj
+        }
+
         data.user.posts = data2
         data.user.status = data.status
         dispatch({
@@ -277,10 +476,10 @@ export const unfollowUser = (id) =>async(dispatch)=>{
             payload:data.user
         })
     } catch (error) {
-        console.log(error.response.data,error.response.status)
+        console.log(error.message,error.statusCode)
         dispatch({
             type:"selectUserFailure",
-            payload:error.response.data
+            payload:error.message
         })
     }    
 }

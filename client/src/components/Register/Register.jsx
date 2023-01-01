@@ -38,7 +38,7 @@ const Register = () => {
     navigate('/')
   };
   useEffect(() => {
-    if (error && error?.msg !== 'No Token provided') {
+    if (error && error !== 'No Token provided') {
       dispatch({ type: "clearErrors" })
       alert.error(error.msg)
     }

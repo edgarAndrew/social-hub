@@ -10,8 +10,7 @@ const Password = () => {
   const [newPassword, setNewPassword] = useState("");
   const dispatch = useDispatch();
   const alert = useAlert();
-  const { user} = useSelector((state) => state.user);
-  const {message,loading,error} = useSelector((state)=>state.likePost)
+  const { user,message,loading,error} = useSelector((state) => state.user);
 
   const submitHandler = async(e) => {
     e.preventDefault();
@@ -20,7 +19,7 @@ const Password = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error.msg);
+      alert.error(error);
       dispatch({ type: "clearErrors" });
     }
     if (message) {

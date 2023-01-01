@@ -52,13 +52,13 @@ export const userReducer = createReducer(initialState,{
     },
     UpdateUserSuccess: (state,action)=>{
         state.loading = false
-        state.user = action.payload
+        state.message = action.payload
         state.isAuthenticated = true;
     },
     UpdateUserFailure: (state,action)=>{
         state.loading = false;     
         state.error = action.payload
-        state.isAuthenticated = false;
+        state.isAuthenticated = true;
     },
     LogoutUserRequest: (state,action)=>{
         state.loading = true;

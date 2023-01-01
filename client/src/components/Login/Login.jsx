@@ -20,9 +20,9 @@ const Login = () => {
     dispatch(loginUser(email,password))
   }
   useEffect(() => {
-    if (error && error?.msg !== 'No Token provided') {
+    if (error && error !== 'No Token provided') {
       dispatch({ type: "clearErrors" })
-      alert.error(error.msg)
+      alert.error(error)
     }
     if(message){
       alert.success(message)

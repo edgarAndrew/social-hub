@@ -25,6 +25,7 @@
     text-decoration: none;
     color: rgb(0,0,0);
     margin: 1vmax;
+    cursor: pointer;
 }
 .post > img{
     width: 100%;
@@ -71,6 +72,17 @@
     width: 50vh;
     height: 40vh;
     padding: 2vmax;
+}
+#likes-btn{
+    background-color: transparent;
+    padding: 0.5vmax 1vmax;
+    border:none;
+    cursor:pointer;
+    margin:0.5vmax 2vmax;
+    border-radius: 5px;
+}
+#likes-btn:hover{
+    background-color: #cbdcf5;
 }
 @media screen and (max-width: 960px) {
     .post{
