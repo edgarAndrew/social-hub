@@ -78,7 +78,7 @@ const Profile = ({
   }
   const handleLogout = async()=>{
     await dispatch(logoutUser());
-    window.location.pathname = "/"
+    //window.location.pathname = "/"
     dispatch({type:"clearErrors"})
   }
   const handleDelete = async()=>{
